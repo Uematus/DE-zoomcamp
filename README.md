@@ -52,3 +52,20 @@ docker compose up -d
 docker exec -it \<name of container\> bash
 
 ---
+
+### Connect with VS Code
+Install extension **Remote Development**
+
+Create config file:  
+```
+Host de_zoomcamp_remote
+    HostName \<IP\>
+    User \<username on server\>
+    IdentityFile "C:\Temp\vm_n8n_openssh"
+```
+
+Click left buttom in VS Code  
+**Connect to Host - Remote-SSH**  
+Provide link to config file  
+
+After connecting **F1** Dev Containers - for connecting to any containers on the server.  
