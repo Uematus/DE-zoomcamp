@@ -4,7 +4,7 @@ Data Engineering Zoomcamp
 # Instalation
 
 ### on server
-mrdir zoomcamp
+mrdir zoomcamp  
 cd zoomcamp
 
 ### Create Python + PostgreSQL for Zoomcamp
@@ -49,4 +49,6 @@ networks:
 docker compose up -d
 
 #### Connect to cantainer
-docker exex -it <name of container> bash
+docker exec -it \<name of container\> bash
+
+---
