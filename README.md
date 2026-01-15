@@ -45,6 +45,15 @@ networks:
     driver: bridge  
 ```
 
+#### Create .env
+nano .env
+```
+POSTGRES_DB=de_db
+POSTGRES_USER=de_user
+POSTGRES_PASSWORD=de_password
+NEW_POSTGRES_PORT=5433
+```
+
 #### Start container
 docker compose up -d
 
@@ -69,3 +78,20 @@ Click left buttom in VS Code
 Provide link to config file  
 
 After connecting **F1** Dev Containers - for connecting to any containers on the server.  
+
+
+### PostgreSQL
+Connect to container  
+Connect to Postgre  
+psql -U \<de_user\> -d postgres  
+  
+CREATE DATABASE ny_taxi;
+
+Exit from postgres and connect to new DB.  
+psql -U \<de_user\> -d ny_taxi  
+  
+List tables  
+\dt
+
+List DB  
+\l
