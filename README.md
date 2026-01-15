@@ -61,7 +61,7 @@ Create config file:
 Host de_zoomcamp_remote
     HostName \<IP\>
     User \<username on server\>
-    IdentityFile "C:\Temp\vm_n8n_openssh"
+    IdentityFile "C:\Temp\vm_openssh"
 ```
 
 Click left buttom in VS Code  
