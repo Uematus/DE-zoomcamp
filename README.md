@@ -5,11 +5,11 @@ Data Engineering Zoomcamp
 
 ### on server
 mrdir zoomcamp  
-cd zoomcamp
+cd zoomcamp  
 
 ### Create Python + PostgreSQL + PgAdmin for Zoomcamp
 
-nano docker-compose.yml
+nano docker-compose.yml  
 
 ```
 services:  
@@ -72,25 +72,25 @@ PGADMIN_DEFAULT_PASSWORD=pgadmin_pass
 ```
 
 #### Start container
-docker compose up -d
+docker compose up -d  
 
 #### Connect to cantainer
-docker exec -it \<name of container\> bash
+docker exec -it \<name of container\> bash  
 
 ---
 ### Update
-Inside container
-apt update
+Inside container  
+apt update  
 
-Install Git
-apt install git
+Install Git  
+apt install git  
 
-Clone Repository
-git clone https://github.com/Uematus/DE-zoomcamp.git
+Clone Repository  
+git clone https://github.com/Uematus/DE-zoomcamp.git  
 ---
 
 ### Connect with VS Code
-Install extension **Remote Development**
+Install extension **Remote Development**  
 
 Create config file:  
 ```
@@ -107,58 +107,59 @@ Provide link to config file
 After connecting **F1** Dev Containers - for connecting to any containers on the server.  
 
 
-### Install modules in container
-pip install pandas
-pip install sqlalchemy
-pip install psycopg2-binary
-pip install tqdm
+### Install modules in container  
+pip install pandas  
+pip install sqlalchemy  
+pip install psycopg2-binary  
+pip install tqdm  
 
 
-### PostgreSQL
+### PostgreSQL  
 Connect to container  
 Connect to Postgre  
 psql -U \<de_user\> -d postgres  
   
-CREATE DATABASE ny_taxi;
+CREATE DATABASE ny_taxi;  
 
 Exit from postgres and connect to new DB.  
 psql -U \<de_user\> -d ny_taxi  
   
 List tables  
-\dt
+\dt  
 
 List DB  
-\l
+\l  
 
-### pgAdmin
-Create SSH tunnel for port 5050
-In browser: http://localhost:5050
+### pgAdmin  
+Create SSH tunnel for port 5050  
+In browser: http://localhost:5050  
 
-login/pass from .env
+login/pass from .env  
 
-Right-click "Servers" → Register → Server
-Configure:
-  General tab: Name: Local DE Docker
-Connection tab:
-  Host: de_postgres_db (the container name)
-  Port: 5432
-  Username: from .env
-  Password: from .env
-Save
+Right-click "Servers" → Register → Server  
+Configure:  
+  General tab: Name: Local DE Docker  
+Connection tab:  
+  Host: de_postgres_db (the container name)  
+  Port: 5432  
+  Username: from .env  
+  Password: from .env  
+Save  
 
 
-## ETL from file
-#### Connection to DB
-engine = create_engine('postgresql://de_user:de_password@de_postgres_db:5432/ny_taxi')
+## ETL from file  
+#### Connection to DB  
+engine = create_engine('postgresql://de_user:de_password@de_postgres_db:5432/ny_taxi')  
 
-#### Create table
-##### View all columns in df
-print(pd.io.sql.get_schema(df, name='yellow_taxi_data', con=engine))
+#### Create table  
+##### View all columns in df  
+print(pd.io.sql.get_schema(df, name='yellow_taxi_data', con=engine))  
 
-##### Create table in DB
-df.head(n=0).to_sql(name='yellow_taxi_data', con=engine, if_exists='replace')
+##### Create table in DB  
+df.head(n=0).to_sql(name='yellow_taxi_data', con=engine, if_exists='replace')  
 
-##### Read csv
+##### Read csv  
+```
 df = pd.read_csv(
     '/workspace/yellow_tripdata_2021-01.csv.gz',
     dtype=dtype,
@@ -188,3 +189,4 @@ for df_chunk in df:
     )
 
     print("Inserted:", len(df_chunk))
+```
