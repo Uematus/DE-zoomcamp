@@ -98,3 +98,4 @@ left join zones as zdo on t."DOLocationID" = zdo."LocationID"
 where zpu."Zone" = 'East Harlem North'
 order by tip_amount desc
 ```
+Yorkville West
