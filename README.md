@@ -1,7 +1,7 @@
 # DE-zoomcamp
 Data Engineering Zoomcamp
 
-# Instalation
+## Instalation
 
 ### on server
 mrdir zoomcamp  
@@ -87,6 +87,7 @@ apt install git
 
 Clone Repository  
 git clone https://github.com/Uematus/DE-zoomcamp.git  
+
 ---
 
 ### Connect with VS Code
@@ -130,6 +131,7 @@ List tables
 List DB  
 \l  
 
+
 ### pgAdmin  
 Create SSH tunnel for port 5050  
 In browser: http://localhost:5050  
@@ -146,6 +148,46 @@ Connection tab:
   Password: from .env  
 Save  
 
+
+## Using Dockerfile
+### Create requirements.txt
+nano requirements.txt  
+```
+pandas  
+sqlalchemy  
+psycopg2-binary  
+tqdm  
+```
+
+### Create Dockerfile  
+nano Dockerfile  
+
+```
+# 1. Base image — as in docker-compose.yml
+FROM python:3.12-slim
+
+# 2. Install system dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends git && \
+    rm -rf /var/lib/apt/lists/*
+
+# 3. Install Python dependencies from requirements.txt
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 4. Set work directory
+WORKDIR /workspace
+
+# 5. Default container mode
+CMD ["sleep", "infinity"]
+```
+
+Change docker-compose.yml  
+```
+python_app:
+    build: .                 # ← build from Dockerfile
+    container_name: de_python_app
+```
 
 ## ETL from file  
 #### Connection to DB  
