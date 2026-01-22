@@ -99,3 +99,12 @@ where zpu."Zone" = 'East Harlem North'
 order by tip_amount desc
 ```
 Yorkville West
+
+## Question 7. Terraform Workflow
+Which of the following sequences, respectively, describes the workflow for:
+
+Downloading the provider plugins and setting up backend,
+Generating proposed changes and auto-executing the plan
+Remove all resources managed by terraform`
+
+terraform init, terraform apply -auto-approve, terraform destroy
