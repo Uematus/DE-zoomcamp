@@ -1,6 +1,9 @@
 # Configuration files
 config
 
+# credential
+credential.md
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
