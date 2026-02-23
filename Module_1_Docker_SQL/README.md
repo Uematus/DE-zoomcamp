@@ -322,3 +322,8 @@ rm -rf __pycache__ .pytest_cache
 # Remove virtual environment (if using venv)
 rm -rf .venv
 ```
+
+### Check size for every container
+```
+docker images --format "table {{.Repository}}\t{{.Tag}}\t{{.Size}}"
+```
