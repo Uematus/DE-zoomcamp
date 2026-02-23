@@ -4,6 +4,10 @@ config
 # credential
 credential.md
 
+# Storage
+duckdb.db
+*.parquet
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
