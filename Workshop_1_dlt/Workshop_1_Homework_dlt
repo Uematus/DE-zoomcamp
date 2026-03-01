@@ -1,0 +1,27 @@
+## Question 1. What is the start date and end date of the dataset?
+```
+SELECT
+  min(trip_pickup_date_time),
+  max(trip_pickup_date_time)
+FROM "taxi_data"
+```
+  
+2009-06-01 to 2009-07-01
+
+## Question 2. What proportion of trips are paid with credit card?
+```
+SELECT
+  CAST(SUM(CASE WHEN payment_type = 'Credit' THEN 1 ELSE 0 END) AS FLOAT) / COUNT(*) AS ratio
+FROM "taxi_data"
+```
+  
+26.66%
+
+## Question 3. What is the total amount of money generated in tips?
+```
+SELECT
+  SUM(tip_amt)
+FROM "taxi_data"
+```
+
+6 063,41
