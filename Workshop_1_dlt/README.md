@@ -57,6 +57,11 @@ services:
 ```
 
 
+### Init a project
+```
+dlt init dlthub:taxi_pipeline duckdb
+```
+
 ### Pipeline
 nano taxi_pipeline.py
 ```
