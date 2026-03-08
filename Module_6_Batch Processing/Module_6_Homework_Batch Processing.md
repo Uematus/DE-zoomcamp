@@ -1,0 +1,83 @@
+## Question 1. Install Spark and PySpark
+* Install Spark
+* Run PySpark
+* Create a local spark session
+* Execute spark.version.
+What's the output?
+  
+```
+spark.version
+```
+
+'4.0.0'
+
+## Question 2. Yellow November 2025
+Read the November 2025 Yellow into a Spark Dataframe.  
+
+Repartition the Dataframe to 4 partitions and save it to parquet.  
+
+What is the average size of the Parquet (ending with .parquet extension) Files that were created (in MB)? Select the answer which most closely matches.
+  
+25MB
+
+## Question 3. Count records
+How many taxi trips were there on the 15th of November?  
+
+Consider only trips that started on the 15th of November.
+```
+df.filter((df.tpep_pickup_datetime >= '2025-11-15 00:00:00') & (df.tpep_pickup_datetime <= '2025-11-15 23:59:59')).count()
+```
+or
+```
+from pyspark.sql.functions import to_date
+df.filter(to_date(df.tpep_pickup_datetime) == '2025-11-15').count()
+```
+or
+```
+from pyspark.sql import functions as F
+df.filter(F.to_date(df.tpep_pickup_datetime) == '2025-11-15').count()
+```
+
+162604
+
+## Question 4. Longest trip
+What is the length of the longest trip in the dataset in hours?
+```
+df \
+    .withColumn('Length_hours', (F.unix_timestamp('tpep_dropoff_datetime') - F.unix_timestamp('tpep_pickup_datetime')) / 3600) \
+    .agg(F.max('Length_hours')).collect()[0][0]
+```
+
+90.64666
+
+## Question 5. User Interface
+Spark's User Interface which shows the application's dashboard runs on which local port?
+
+4040
+
+## Question 6. Least frequent pickup location zone
+Load the zone lookup data into a temp view in Spark:  
+
+wget https://d37ci6vzurychx.cloudfront.net/misc/taxi_zone_lookup.csv
+Using the zone lookup data and the Yellow November 2025 data, what is the name of the LEAST frequent pickup location Zone?
+
+```
+df_zones = spark.read.csv('taxi_zone_lookup.csv', header=True)
+
+df_zones.registerTempTable('zones')
+
+df.registerTempTable('trips')
+
+spark.sql("""
+    SELECT 
+        zones.Zone,
+        COUNT(*)
+    FROM trips
+    LEFT JOIN zones ON trips.PULocationID = zones.LocationID
+    GROUP BY zones.Zone
+    ORDER BY COUNT(*)
+""").show()
+```
+
+Governor's Island/Ellis Island/Liberty Island
+Arden Heights
