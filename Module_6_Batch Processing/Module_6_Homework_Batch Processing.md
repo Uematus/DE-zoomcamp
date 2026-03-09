@@ -79,5 +79,5 @@ spark.sql("""
 """).show()
 ```
 
-Governor's Island/Ellis Island/Liberty Island
+Governor's Island/Ellis Island/Liberty Island  
 Arden Heights
