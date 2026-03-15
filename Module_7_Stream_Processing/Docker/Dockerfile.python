@@ -1,0 +1,32 @@
+FROM python:3.12-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    libpq-dev \
+    python3-dev \
+    curl \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /workspace
+
+# Установка библиотек (используем стабильные версии)
+RUN pip install --no-cache-dir \
+    jupyter==1.1.1 \
+    notebook==7.3.2 \
+    ipykernel==6.29.5 \
+    pandas==2.2.3 \
+    kafka-python-ng \
+    psycopg2-binary \
+    pyarrow==19.0.1
+
+# Конфигурация Jupyter для работы без токена
+RUN jupyter notebook --generate-config && \
+    echo "c.ServerApp.ip = '0.0.0.0'" >> /root/.jupyter/jupyter_notebook_config.py && \
+    echo "c.ServerApp.token = ''" >> /root/.jupyter/jupyter_notebook_config.py && \
+    echo "c.ServerApp.password = ''" >> /root/.jupyter/jupyter_notebook_config.py && \
+    echo "c.ServerApp.allow_origin = '*'" >> /root/.jupyter/jupyter_notebook_config.py
+
+EXPOSE 8888
+
+CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]

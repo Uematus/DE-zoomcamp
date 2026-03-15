@@ -261,6 +261,15 @@ docker rm <container_id>
 docker container prune
 ```
 
+### Volume of Docker
+```bash
+# Statistics of containers
+docker system df
+
+# Delete all unused data !!!
+docker system prune -a --volumes
+```
+
 ### Remove Docker Images
 
 ```bash

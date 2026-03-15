@@ -1,0 +1,78 @@
+services:
+  redpanda:
+    image: redpandadata/redpanda:v23.3.5
+    command:
+      - redpanda
+      - start
+      - --overprovisioned
+      - --smp=1
+      - --memory=256M
+      - --reserve-memory=0M
+      - --node-id=0
+      - --check=false
+      - --kafka-addr=PLAINTEXT://0.0.0.0:9092
+      - --advertise-kafka-addr=PLAINTEXT://redpanda:9092
+    ports:
+      - "9092:9092"
+    healthcheck:
+      test: ["CMD", "rpk", "cluster", "info"]
+      interval: 5s
+    deploy:
+      resources:
+        limits:
+          memory: 400M
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+  flink:
+    build:
+      context: .
+      dockerfile: Dockerfile.flink
+    command: jobmanager
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./src:/opt/src
+      - ./flink-conf.yaml:/opt/flink/conf/flink-conf.yaml
+    environment:
+      - FLINK_PROPERTIES=jobmanager.rpc.address:flink
+    deploy:
+      resources:
+        limits:
+          memory: 800M
+    depends_on:
+      redpanda:
+        condition: service_healthy
+
+  python:
+    build:
+      context: .
+      dockerfile: Dockerfile.python
+    container_name: module_7-python
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebooks:/workspace
+    deploy:
+      resources:
+        limits:
+          memory: 800M
+    depends_on:
+      redpanda:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
