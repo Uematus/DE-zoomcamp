@@ -1,0 +1,10 @@
+services:
+  bruin:
+    build: .
+    image: bruin
+    volumes:
+      - ./project:/app
+    working_dir: /app
+    tty: true
+    stdin_open: true
+    command: sleep infinity

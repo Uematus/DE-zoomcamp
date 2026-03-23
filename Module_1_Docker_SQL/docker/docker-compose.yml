@@ -1,0 +1,46 @@
+
+services:  
+  python_app:  
+    image: python:3.12-slim  
+    container_name: de_python_app  
+    restart: unless-stopped  
+    working_dir: /workspace  
+    volumes:  
+      - /home/purogen/zoomcamp/share:/workspace  
+    command: sleep infinity  
+    networks:  
+      - de_net  
+  
+  db:  
+    image: postgres:16  
+    container_name: de_postgres_db  
+    restart: unless-stopped  
+    env_file:  
+      - .env  
+    ports:  
+      - "${NEW_POSTGRES_PORT}:5432"
+    volumes:
+      - de-postgres-data:/var/lib/postgresql/data
+    networks:
+      - de_net
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: de_pgadmin
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    networks:
+      - de_net
+
+volumes:
+  de-postgres-data:
+  pgadmin-data:
+
+networks:
+  de_net:
+    driver: bridge
